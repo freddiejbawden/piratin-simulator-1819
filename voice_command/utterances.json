@@ -1,0 +1,17 @@
+{
+  "fire":{
+    "utterances":[
+      "fire cannons",
+      "fire the cannons",
+      "shoot the cannons",
+      "fire",
+      "launch the cannons"
+    ],
+    "variables": {
+      "area":[
+        "starboard",
+        "port"
+      ]
+    }
+  }
+}
