@@ -2,16 +2,24 @@
   "fire":{
     "utterances":[
       "fire cannons",
+      "fire cannon",
+      "fire the cannon",
       "fire the cannons",
+      "shoot the cannon",
       "shoot the cannons",
       "fire",
-      "launch the cannons"
+      "launch the cannons",
+      "launch the cannon"
     ],
-    "variables": {
-      "area":[
+    "variables": [
         "starboard",
         "port"
-      ]
-    }
+    ]
+  },
+  "full":{
+    "utterances":[
+      "full speed",
+      "full sail"
+    ]
   }
 }

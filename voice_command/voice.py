@@ -23,16 +23,26 @@ async def get_audio(speech_patterns):
         print("Unable to process speech")
 
 def parse_speech(audio_text,speech_patterns):
-    words = set(audio_text.split(""))
     for k in speech_patterns.keys():
-        for utterance in speech_patterns[k]["utterances"]:
-            if utterance
+        for ut in speech_patterns[k]["utterances"]:
+            split_aud = audio_text.split(" ")
+            if all(word in split_aud for word in split_aud):
+                try:
+                    if speech_patterns[k]["variables"]:
+                        for v in speech_patterns[k]["variables"]:
+                            if v in split_aud:
+                                print(k,v)
+                                return(k,v)
+                        print("variable not found")
+                except:
+                    print(k)
+                return
+    print("no match")
 
 if __name__ == "__main__":
     for index, name in enumerate(sr.Microphone.list_microphone_names()):
         print(index,name)
     with open("utterances.json") as f:
         speech_patterns = json.load(f)
-    print(speech_patterns)
-    print(parse_speech("test",speech_patterns))
+    parse_speech("fire cannons starboard",speech_patterns)
     #print(asyncio.run(get_audio()))
