@@ -2,6 +2,7 @@ import math
 import pygame
 import random
 import os
+import numpy as np
 from pygame.math import Vector2
 from math import tan, radians, degrees, copysign
 
@@ -29,10 +30,29 @@ blocks = pygame.sprite.Group()
 cannon_list = pygame.sprite.Group()
 ###################################
 
-
-
-class Player:
+class Bullet(pygame.sprite.Sprite):
+    """ This class represents the bullet . """
     def __init__(self):
+        # Call the parent class (Sprite) constructor
+        super().__init__()
+
+        self.image = pygame.Surface([4, 10])
+        self.image.fill(BLACK)
+
+        self.position = Vector2(200,200)
+        self.velocity = Vector2(0.0, 0.0)
+        self.angle = 90.0
+        self.acceleration = 1.2
+    def update(self):
+        """ Move the bullet. """
+        self.velocity -= (self.acceleration * 0.2, 0.0)
+        self.velocity.x = 1.2
+
+class Player(pygame.sprite.Sprite):
+    def __init__(self):
+        super(Player, self).__init__()
+        self.image = pygame.image.load(os.path.join(os.path.dirname(os.path.abspath(__file__)), "player_boat.png"))
+        self.image = pygame.transform.scale(self.image, (100, 100))
         self.anchored = False
         self.position = Vector2(200,200)
         self.velocity = Vector2(0.0, 0.0)
@@ -43,6 +63,8 @@ class Player:
         self.max_velocity = 50
         self.brake_deceleration = 10
         self.free_deceleration = 2
+
+
 
         self.acceleration = 0.0
         self.steering = 0.0
@@ -75,28 +97,6 @@ class Player:
             self.position.y = 0
 
 
-
-class Cannonball(pygame.sprite.Sprite):
-    """ This class represents the cannonball . """
-    def __init__(self, x, y, side):
-        # Call the parent class (Sprite) constructor
-        super().__init__()
-        self.image = pygame.Surface([4, 10])
-        self.image.fill(BLACK)
-        self.rect = self.image.get_rect()
-        self.position = Vector2(x,y)
-        self.side = side
-
-
-    def update(self):
-        """ Move the bullet. """
-        if(self.side == 1):
-            self.position.x -= 3
-        else:
-            self.position.x += 3
-
-
-
 class Game:
     def __init__(self):
 
@@ -109,12 +109,10 @@ class Game:
         self.finished = False
 
     def run(self):
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        image_path = os.path.join(current_dir, "player_boat.png")
-        player_image = pygame.image.load(image_path)
-        player_image = pygame.transform.scale(player_image, (100, 100))
+
+
         player = Player()
-        #all_sprites.add(player)
+        all_sprites.add(player)
         ppu = 2
 
         while not self.finished:
@@ -159,40 +157,37 @@ class Game:
                 player.steering = 0
             player.steering = max(-player.max_steering, min(player.steering, player.max_steering))
 
-            if pressed[pygame.K_1]:
+            if pressed[pygame.K_f]:
                 # Fire a bullet if the user clicks the mouse button
-                cannonball = Cannonball(player.position.x, player.position.y, 1)
-                print("test")
+                bullet = Bullet()
                 # Set the bullet so it is where the player is
 
                 # Add the bullet to the lists
-                all_sprites.add(cannonball)
-                cannon_list.add(cannonball)
-            elif pressed[pygame.K_2]:
-                # Fire a bullet if the user clicks the mouse button
-                cannonball = Cannonball(player.position.x, player.position.y, 0)
-                # Set the bullet so it is where the player is
+                all_sprites.add(bullet)
+                cannon_list.add(bullet)
+                rotated_bullet = pygame.transform.rotate(bullet.image, bullet.angle)
+                rect_bullet = rotated_bullet.get_rect(center=bullet.position)
+                self.screen.blit(rotated_bullet, bullet.position * ppu - (rect.width / 2, rect.height / 2))
 
-                # Add the bullet to the lists
-                all_sprites.add(cannonball)
-                cannon_list.add(cannonball)
 
-            for cannonball in cannon_list:
 
-                # Remove the bullet if it flies up off the screen
-                if cannonball.rect.y < -10:
-                    cannon_list.remove(bullet)
-                    all_sprites.remove(bullet)
-
-            # Logic
+            # Game Logic
             player.update(dt)
+            cannon_list.update()
+            #print(cannon_list)
+            #print("Player Position: {}, Player Velocity: {}, Player acceleration: {}, Player center: {}, Player angle: {}." .format(player.position, player.velocity, player.acceleration, player.rect, player.angle,))
 
             # Drawing
             self.screen.fill(WHITE)
-            rotated = pygame.transform.rotate(player_image, player.angle)
+            rotated = pygame.transform.rotate(player.image, player.angle)
+
 
             rect = rotated.get_rect(center=player.position)
+            print(pygame.mouse.get_pos())
+
+
             self.screen.blit(rotated, player.position * ppu - (rect.width / 2, rect.height / 2))
+
             pygame.display.flip()
             self.clock.tick(self.ticks)
         pygame.quit()
