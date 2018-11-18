@@ -41,7 +41,8 @@ class Target:
 
 			#threshold the image to isolate two colors
 			cv.inRange(hsv_img,(164,102,187),(218,222,255),threshold_img2) #pink
-			cv.inRange(hsv_img,(91,105,190),(166,255,255),threshold_img1)  #blue
+			cv.inRange(hsv_img,(80,182,136),(110,255,255),threshold_img1)  #blue
+			#cv.inRange(hsv_img,(14,159,77),(38,234,192),threshold_img1)
 
 
 			#determine the moments of the two objects
@@ -57,13 +58,12 @@ class Target:
 			coord_list=[x1,y1,x2,y2]
 			for x in coord_list:
 				x=0
-
 			#there can be noise in the video so ignore objects with small areas
 			if (area1 >200000):
 				#x and y coordinates of the center of the object is found by dividing the 1,0 and 0,1 moments by the area
 				x1=int(moments1['m10']/area1)
 				y1=int(moments1['m01']/area1)
-
+				print [x1,y1]
 				#draw circle
 				cv.circle(img,(x1,y1),2,(0,255,0),20)
 
@@ -72,22 +72,25 @@ class Target:
 
 			if (area2 >100000):
 				#x and y coordinates of the center of the object is found by dividing the 1,0 and 0,1 moments by the area
-				x2=int(moments1['m10']/area2)
-				y2=int(moments1['m01']/area2)
-
+				x2=int(moments2['m10']/area2)
+				y2=int(moments2['m01']/area2)
+				print [x2,y2]
 				#draw circle
-				cv.circle(img,(x2,y2),2,(0,255,0),20)
+				cv.circle(img,(x2,y2),2,(255,0,0),20)
 
 				cv.putText(img,str(x2)+","+str(y2),(x2,y2+20),font, 1,(255,255,255)) #Draw the text
-				#cv.line(img,(x1,y1),(x2,y2),(0,255,0),4,cv.LINE_AA)
+				cv.line(img,(x1,y1),(x2,y2),(0,255,0),4,cv.LINE_AA)
 				#draw line and angle
-				#cv.line(img,(x1,y1),(frame_height, frame_width),(100,100,100,100),4,cv.LINE_AA)
+				cv.line(img,(x1,y1),(frame_height, frame_width),(100,100,100,100),4,cv.LINE_AA)
 			x1=float(x1)
 			y1=float(y1)
 			x2=float(x2)
 			y2=float(y2)
-			angle = int(math.atan((y1-y2)/(x2-x1))*180/math.pi)
-			cv.putText(img,str(angle),(int(x1)+50,(int(y2)+int(y1))/2),font, 4,(255,255,255))
+			try:
+				angle = int(math.atan((y1-y2)/(x2-x1))*90/math.pi)
+				cv.putText(img,str(angle),(int(x1)+50,(int(y2)+int(y1))/2),font, 4,(255,255,255))
+			except ZeroDivisionError:
+				print("lost contact!")
 
 			#cv.writeFrame(writer,img)
 
