@@ -19,8 +19,8 @@ BLUE  = (  0,  0,  255)
 
 
 ####### CONSTANTS ######
-WIDTH = 1920
-HEIGHT = 1080
+WIDTH = 800
+HEIGHT = 600
 MAX_SPEED = 5
 ########################
 
@@ -71,13 +71,13 @@ class Player(pygame.sprite.Sprite):
 
     def wrap_around_screen(self):
         """Wrap around screen."""
-        if self.position.x > WIDTH:
+        if self.position.x > 400:
             self.position.x = 0
         if self.position.x < 0:
-            self.position.x = WIDTH
+            self.position.x = 400
         if self.position.y <= 0:
-            self.position.y = HEIGHT
-        if self.position.y > HEIGHT:
+            self.position.y = 400
+        if self.position.y > 400:
             self.position.y = 0
 
 
@@ -152,10 +152,12 @@ class Game:
             player.steering = max(-player.max_steering, min(player.steering, player.max_steering))
 
             # Game Logic
+            player.wrap_around_screen()
             player.update(dt)
 
             # Drawing
             self.screen.blit(background, background_rect)
+
             rotated = pygame.transform.rotate(player.image, player.angle)
 
 
