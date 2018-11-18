@@ -131,7 +131,7 @@ while True:
 		thickness = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
 		cv2.line(frame, pts[i - 1], pts[i], (0, 0, 255), thickness)
 
-	print direction
+	#print direction
 
 	cv2.putText(frame, direction, (10, 30), cv2.FONT_HERSHEY_SIMPLEX,
 		0.65, (0, 0, 255), 3)
