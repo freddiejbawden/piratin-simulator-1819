@@ -99,8 +99,8 @@ class Game:
         all_sprites.add(player)
         ppu = 2
 
-        song = pygame.mixer.music.load(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'free_pirate_music.wav'))
-        pygame.mixer.music.play(-1)
+        #song = pygame.mixer.music.load(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'free_pirate_music.wav'))
+        #pygame.mixer.music.play(-1)
         background = pygame.image.load(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'water.png')).convert()
         background_rect = background.get_rect()
 
