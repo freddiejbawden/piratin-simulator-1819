@@ -5,7 +5,7 @@
 
 We wanted to interpret the theme of "Changing Human computer interaction" in a fun and unique way but using a mixture of voice and physical input to enhance the theme and interactivity of a game. 
 
-- We don't know why pirates either _
+_We don't know why pirates either_
 
 ## What it does
 
