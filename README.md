@@ -9,7 +9,7 @@ We wanted to interpret the theme of "Changing Human computer interaction" in a f
 
 ## What it does
 
- _ Ahoy Land Lubbers, for our hackerton project, we wanted to craft the finest pirating experience. Rather than those filthy pretend keyboard controls, Pirate Simula'or uses a real wheel you can grasp wit' yer hands ~shiver me timbers~. We also included a loyal crew for ye to yell yer commands at, so you can feel just like a real cap'in. _
+ _Ahoy Land Lubbers, for our hackerton project, we wanted to craft the finest pirating experience. Rather than those filthy pretend keyboard controls, Pirate Simula'or uses a real wheel you can grasp wit' yer hands ~shiver me timbers~. We also included a loyal crew for ye to yell yer commands at, so you can feel just like a real cap'in._
 
 The game uses an OpenCV object tracker to measure the position of our ship wheel which the user holds. This then feeds into the game where the boat responds with realistic physics. We also have speech recognition for more immersion which responds to commands such as "Full Sail!" to increase the speed 
 
