@@ -1,5 +1,4 @@
-# Smugglers Run
-### (Piratin' Simula'or 1819)
+# Piratin' Simula'or 1819
 
 ## Inspiration
 
